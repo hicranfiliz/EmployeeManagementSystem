@@ -7,7 +7,7 @@ namespace BaseLibrary.DTOs
         [Required]
         [MinLength(5)]
         [MaxLength(100)]
-        public string? Fullnam { get; set; }
+        public string? Fullname { get; set; }
 
         [DataType(DataType.Password)]
         [Compare(nameof(Password))]
