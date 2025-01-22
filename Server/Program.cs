@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ServerLibarry.Data;
 using ServerLibarry.Helpers;
+using ServerLibarry.Repositories.Contracts;
+using ServerLibarry.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.Configure<JwtSection>(builder.Configuration.GetSection("JwtSection"));
+builder.Services.AddScoped<IUserAccount, UserAccountRepository>();
 
 var app = builder.Build();
 
