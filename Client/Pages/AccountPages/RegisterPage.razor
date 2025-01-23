@@ -1,6 +1,8 @@
 ﻿@page "/identity/account/register"
 @using Client.Pages.OtherPages
+@using Syncfusion.Blazor.Popups
 @layout AuthenticationLayout
+@inject SfDialogService DialogService
 
 <div class="container">
     <div class="row">
@@ -65,6 +67,12 @@
     public bool ShowLoadingButton { get; set; } = false;
     Register User = new();
 
+    [CascadingParameter] public Task<AuthenticationState> AuthenticationState { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        await CheckUserAuthentication();
+    }
+
     async Task HandleRegistration()
 
     {
@@ -73,10 +81,26 @@
 
         if (result.Flag)
         {
-
+            await DisplayDialog(result.Message, "Register Success");
             User = new();
         }
-        else { }
+        else
+        {
+            await DisplayDialog(result.Message, "Alert");
+        }
         ShowLoadingButton = false;
+    }
+
+    private async Task DisplayDialog(string content, string title)
+    {
+        await DialogService.AlertAsync(content, title);
+    }
+
+    private async Task CheckUserAuthentication()
+    {
+        var user = (await AuthenticationState).User;
+        bool isUserAuthenticated = user.Identity!.IsAuthenticated;
+        if (!isUserAuthenticated)
+            NavManager.NavigateTo("/identity/account/login");
     }
 }
