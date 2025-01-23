@@ -1,4 +1,5 @@
 ﻿@page "/identity/account/register"
+@using Client.Pages.OtherPages
 @layout AuthenticationLayout
 
 <div class="container">
@@ -36,11 +37,19 @@
                             <input type="password" @bind="User.ConfirmPassword" class="form-control" />
                         </div>
                         <div class="form-group mt-3">
-                            <button class="btn btn-outline-primary float-end" type="submit">Register</button>
+                            @if (ShowLoadingButton)
+                            {
+                                <ButtonLoadingSpinner></ButtonLoadingSpinner>
+                            }
+                            else
+                            {
+                                <button class="btn btn-outline-primary float-end" type="submit">Register</button>
+                            }
                         </div>
                     </div>
                     <div class="card-footer">
-                        <span class="text-center"> Have an account already?
+                        <span class="text-center">
+                            Have an account already?
                             <a class="btn-link" href="identity/account/login">Sign In</a>
                         </span>
                         <ValidationSummary />
@@ -53,13 +62,13 @@
 </div>
 
 @code {
-
+    public bool ShowLoadingButton { get; set; } = false;
     Register User = new();
 
     async Task HandleRegistration()
 
     {
-
+        ShowLoadingButton = true;
         var result = await accountService.CreateAsync(User);
 
         if (result.Flag)
@@ -67,7 +76,7 @@
 
             User = new();
         }
-        else{}
-
+        else { }
+        ShowLoadingButton = false;
     }
 }
