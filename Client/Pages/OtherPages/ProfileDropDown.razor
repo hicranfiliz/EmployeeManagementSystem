@@ -1,7 +1,8 @@
-﻿
+﻿@inject AuthenticationStateProvider AuthStateProvider
 <div class="btn-group">
     <img src="@(ProfileImage == "" ? "../images/profile/user.png" : ProfileImage)" width="30" height="30" style="border-radius:50%; margin-right:5px;"/>
     <button type="button" class="btn btn-none border-0 dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+        <span>@UserName</span>
         <span class="visually-hidden">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu mt-2 border-0">
@@ -30,6 +31,22 @@
 
 @code{
     public string ProfileImage { get; set; } = "";
+    public string UserName { get; set; } = "Loading...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity != null && user.Identity.IsAuthenticated)
+        {
+            UserName = user.Identity.Name ?? "Guest"; // Kullanıcı adı
+        }
+        else
+        {
+            UserName = "Guest"; // Kullanıcı oturum açmamış
+        }
+    }
 
     async Task LogoutClicked()
     {

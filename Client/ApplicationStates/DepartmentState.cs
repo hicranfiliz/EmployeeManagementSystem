@@ -2,7 +2,7 @@
 
 public class DepartmentState
 {
-    public Action? GeneralDepartmentAction { get; set; }
+public Action? GeneralDepartmentAction { get; set; }
     public bool ShowGeneralDepartment { get; set; }
     public void GeneralDepartmentClicked()
     {

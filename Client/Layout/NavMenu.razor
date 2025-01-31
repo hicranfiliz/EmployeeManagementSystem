@@ -52,7 +52,7 @@
                     <div class="nav-link p-2 text-white" style="margin-left:5rem; visibility:@DepartmentCssStyle">
                         <ul class="list-group">
                             <li style="list-style:none" class="cusorStyle">
-                                <a class="nav-link p-2" @onclick="GeneralDepartmentClicked">
+                                <a class="nav-link p-2">
                                     <div class="hstack text-wrap">
                                         <span class="bi bi-file-medical fs-5 text-center" aria-hidden="true" style="margin-top:-2rem"></span>
                                         <span class="fs-6">General</span>
@@ -115,17 +115,21 @@
 
     public string DepartmentCssStyle = "hidden";
     public bool ShowHideDepartment { get; set; } = false;
+
     private void ShowDepartmentContainer()
     {
         ShowHideDepartment = !ShowHideDepartment;
         if (ShowHideDepartment)
+        {
             DepartmentCssStyle = "visible";
+        }
         else
+        {
             DepartmentCssStyle = "hidden";
+        }
     }
 
-    void GeneralDepartmentClicked()
-    {
+    void GeneralDepartmentClicked() {
         departmentState.GeneralDepartmentClicked();
     }
 }
