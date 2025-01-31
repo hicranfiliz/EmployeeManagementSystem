@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+﻿using Microsoft.AspNetCore.Mvc;
 using ServerLibarry.Repositories.Contracts;
 
 namespace Server.Controllers
@@ -29,7 +27,15 @@ namespace Server.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add(T model)
         {
+            if (model is null) return BadRequest("Bad request made");
             return Ok(await genericRepositoryInterface.Insert(model));
         }
+        [HttpPut("update")]
+        public async Task<IActionResult> Update(T model)
+        {
+            if (model is null) return BadRequest("Bad request made");
+            return Ok(await genericRepositoryInterface.Update(model));
+        }
+
     }
 }
